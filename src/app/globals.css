@@ -1,0 +1,127 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --background: 0 0% 100%;
+  --foreground: 187 86% 10%;
+  --card: 0 0% 100%;
+  --card-foreground: 187 86% 10%;
+  --popover: 0 0% 100%;
+  --popover-foreground: 187 86% 10%;
+  --primary: 158 95% 49%;
+  --primary-foreground: 187 86% 10%;
+  --secondary: 0 0% 96%;
+  --secondary-foreground: 187 86% 10%;
+  --muted: 0 0% 96%;
+  --muted-foreground: 0 0% 45%;
+  --accent: 158 95% 49%;
+  --accent-foreground: 187 86% 10%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: 0 0% 90%;
+  --input: 0 0% 90%;
+  --ring: 158 95% 49%;
+  --chart-1: 158 95% 49%;
+  --chart-2: 165 87% 29%;
+  --chart-3: 183 62% 21%;
+  --chart-4: 182 29% 78%;
+  --chart-5: 187 86% 10%;
+  --radius: 0.75rem;
+}
+
+.dark {
+  --background: 187 86% 10%;
+  --foreground: 0 0% 100%;
+  --card: 187 71% 16%;
+  --card-foreground: 0 0% 100%;
+  --popover: 187 71% 16%;
+  --popover-foreground: 0 0% 100%;
+  --primary: 158 95% 49%;
+  --primary-foreground: 187 86% 10%;
+  --secondary: 165 87% 29%;
+  --secondary-foreground: 0 0% 100%;
+  --muted: 183 62% 21%;
+  --muted-foreground: 182 29% 78%;
+  --accent: 158 95% 49%;
+  --accent-foreground: 187 86% 10%;
+  --destructive: 0 72% 51%;
+  --destructive-foreground: 0 0% 100%;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(255, 255, 255, 0.1);
+  --ring: 158 95% 49%;
+  --chart-1: 158 95% 49%;
+  --chart-2: 165 87% 29%;
+  --chart-3: 183 62% 21%;
+  --chart-4: 182 29% 78%;
+  --chart-5: 187 86% 10%;
+}
+
+@layer base {
+  * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    @apply bg-background text-foreground;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    line-height: 1.2;
+  }
+
+  button {
+    cursor: pointer;
+    border: none;
+    outline: none;
+  }
+
+  input, textarea, select {
+    outline: none;
+  }
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+/* Animations */
+@keyframes slide-right {
+  0% {
+    transform: translateX(-100%) rotate(-15deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 0.3;
+  }
+  90% {
+    opacity: 0.3;
+  }
+  100% {
+    transform: translateX(100vw) rotate(-15deg);
+    opacity: 0;
+  }
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
