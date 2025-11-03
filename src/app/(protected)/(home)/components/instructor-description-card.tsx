@@ -1,9 +1,10 @@
 'use client'
 
-import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { instructorStore } from '@/stores/instructor.store'
+import React from 'react'
+
 import { InfoCard } from '@/components/InfoCard'
+import { instructorStore } from '@/stores/instructor.store'
 
 export const InstructorDescriptionCard: React.FC = observer(() => {
   const instructor = instructorStore.instructor!

@@ -1,10 +1,11 @@
 'use client'
 
-import React from 'react'
 import { ExclamationTriangleIcon } from '@heroicons/react/24/outline'
 import { observer } from 'mobx-react-lite'
-import { instructorStore } from '@/stores/instructor.store'
+import React from 'react'
+
 import { Alert } from '@/components/Alert'
+import { instructorStore } from '@/stores/instructor.store'
 
 export const PendingApprovalAlert: React.FC = observer(() => {
   const instructor = instructorStore.instructor!

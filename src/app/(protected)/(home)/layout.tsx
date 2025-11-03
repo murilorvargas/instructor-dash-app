@@ -1,5 +1,6 @@
 import { InstructorStoreInitializer } from '@/providers/instructor-store-initializer'
 import { getInstructorServer } from '@/services/instructor/instructor.server'
+
 import { Sidebar } from './components/sidebar'
 import { sidebarItems } from './components/sidebar-items'
 

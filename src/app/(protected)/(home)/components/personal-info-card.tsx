@@ -1,11 +1,12 @@
 'use client'
 
-import React from 'react'
 import { observer } from 'mobx-react-lite'
-import { personStore } from '@/stores/person.store'
-import { calculateAge } from '@/utils/birth-handlers'
+import React from 'react'
+
 import { InfoCard } from '@/components/InfoCard'
 import { InfoRow } from '@/components/InfoRow'
+import { personStore } from '@/stores/person.store'
+import { calculateAge } from '@/utils/birth-handlers'
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)

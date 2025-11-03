@@ -1,10 +1,11 @@
 'use client'
 
-import React from 'react'
 import { EnvelopeIcon } from '@heroicons/react/24/outline'
 import { observer } from 'mobx-react-lite'
-import { personStore } from '@/stores/person.store'
+import React from 'react'
+
 import { instructorStore } from '@/stores/instructor.store'
+import { personStore } from '@/stores/person.store'
 
 export const ProfileHeader: React.FC = observer(() => {
   const person = personStore.person!

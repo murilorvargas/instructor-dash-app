@@ -1,11 +1,12 @@
 'use client'
 
-import React from 'react'
 import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { observer } from 'mobx-react-lite'
-import { instructorStore } from '@/stores/instructor.store'
+import React from 'react'
+
 import { InfoCard } from '@/components/InfoCard'
 import { InfoRow } from '@/components/InfoRow'
+import { instructorStore } from '@/stores/instructor.store'
 
 const formatDate = (dateString: string) => {
   const date = new Date(dateString)

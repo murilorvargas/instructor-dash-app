@@ -1,13 +1,14 @@
 'use client'
 
 import React from 'react'
-import { ProfileHeader } from './components/profile-header'
-import { PendingApprovalAlert } from './components/pending-approval-alert'
-import { PersonalInfoCard } from './components/personal-info-card'
+
 import { AddressCard } from './components/address-card'
 import { DriverLicenseCard } from './components/driver-license-card'
-import { ProfessionalCertificateCard } from './components/professional-certificate-card'
 import { InstructorDescriptionCard } from './components/instructor-description-card'
+import { PendingApprovalAlert } from './components/pending-approval-alert'
+import { PersonalInfoCard } from './components/personal-info-card'
+import { ProfessionalCertificateCard } from './components/professional-certificate-card'
+import { ProfileHeader } from './components/profile-header'
 
 export const PageView: React.FC = () => {
   return (
