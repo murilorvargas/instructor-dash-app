@@ -5,8 +5,8 @@ import React, { useEffect, useState } from 'react'
 import toast from 'react-hot-toast'
 
 import { pricingApi } from '@/services/pricing/pricing.api'
-import { personStore } from '@/stores/person.store'
 import { instructorStore } from '@/stores/instructor.store'
+import { personStore } from '@/stores/person.store'
 import { pricingStore } from '@/stores/pricing.store'
 
 import { PricingPageView } from './PageView'

@@ -5,12 +5,13 @@ import React from 'react'
 
 import { Alert } from '@/components/Alert'
 import { Button } from '@/components/Button'
-import { InfoCard } from '@/components/InfoCard'
 import { Dialog } from '@/components/Dialog'
+import { InfoCard } from '@/components/InfoCard'
 import { Input } from '@/components/Input'
 import { Select } from '@/components/Select'
-import { PricingPageAlert } from '../components/pricing-page-alert'
 import type { InstructorPricingResponse } from '@/services/pricing/pricing.types'
+
+import { PricingPageAlert } from '../components/pricing-page-alert'
 
 const categoryLabels: Record<string, string> = {
   A: 'Categoria A - Motocicleta',

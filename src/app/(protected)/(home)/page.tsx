@@ -5,8 +5,8 @@ import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 
 import { instructorApi } from '@/services/instructor/instructor.api'
-import { personStore } from '@/stores/person.store'
 import { instructorStore } from '@/stores/instructor.store'
+import { personStore } from '@/stores/person.store'
 
 import { PageView } from './PageView'
 

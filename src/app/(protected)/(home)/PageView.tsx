@@ -5,10 +5,10 @@ import React from 'react'
 import { AddressCard } from './components/address-card'
 import { DriverLicenseCard } from './components/driver-license-card'
 import { InstructorDescriptionCard } from './components/instructor-description-card'
-import { ProfilePagelAlert } from './components/profile-page-alert'
 import { PersonalInfoCard } from './components/personal-info-card'
 import { ProfessionalCertificateCard } from './components/professional-certificate-card'
 import { ProfileHeader } from './components/profile-header'
+import { ProfilePagelAlert } from './components/profile-page-alert'
 
 interface PageViewProps {
   editDescriptionOpen: boolean

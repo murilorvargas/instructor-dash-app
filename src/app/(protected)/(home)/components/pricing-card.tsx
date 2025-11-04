@@ -7,8 +7,8 @@ import React from 'react'
 import { Button } from '@/components/Button'
 import { InfoCard } from '@/components/InfoCard'
 import { pricingStore } from '@/stores/pricing.store'
+
 import { CreatePricingDialog } from './create-pricing-dialog'
-import type { InstructorPricingResponse } from '@/services/pricing/pricing.types'
 
 const categoryLabels: Record<string, string> = {
   A: 'Categoria A - Motocicleta',

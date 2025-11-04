@@ -7,6 +7,7 @@ import React from 'react'
 import { Button } from '@/components/Button'
 import { InfoCard } from '@/components/InfoCard'
 import { instructorStore } from '@/stores/instructor.store'
+
 import { EditDescriptionDialog } from './edit-description-dialog'
 
 interface InstructorDescriptionCardProps {

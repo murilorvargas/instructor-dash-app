@@ -2,10 +2,10 @@ import { InstructorStoreInitializer } from '@/providers/instructor-store-initial
 import { PricingStoreInitializer } from '@/providers/pricing-store-initializer'
 import { getInstructorServer } from '@/services/instructor/instructor.server'
 import { getAllPricingsServer } from '@/services/pricing/pricing.server'
+import { InstructorPricingResponse } from '@/services/pricing/pricing.types'
 
 import { Sidebar } from './components/sidebar'
 import { sidebarItems } from './components/sidebar-items'
-import { InstructorPricingResponse } from '@/services/pricing/pricing.types'
 
 export default async function HomeLayout({
   children,
