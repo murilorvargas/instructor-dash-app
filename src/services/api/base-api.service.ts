@@ -18,6 +18,11 @@ export abstract class BaseApiService {
     return response.data
   }
 
+  protected async patch<T>(path: string, data: any): Promise<T> {
+    const response = await this.api.patch(path, data)
+    return response.data
+  }
+
   protected async delete<T>(path: string): Promise<T> {
     const response = await this.api.delete(path)
     return response.data

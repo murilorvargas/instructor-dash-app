@@ -23,3 +23,7 @@ export interface InstructorResponse {
   instructor_status: string
 }
 
+export interface UpdateInstructorDescriptionRequest {
+  instructor_description: string
+}
+

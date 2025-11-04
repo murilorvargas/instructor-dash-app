@@ -1,12 +1,16 @@
-import { UserIcon } from '@heroicons/react/24/outline'
+import { CurrencyDollarIcon, UserIcon } from '@heroicons/react/24/outline'
 import React from 'react'
 
 export const sidebarItems = [
   {
     icon: <UserIcon className="w-5 h-5" />,
     label: 'Meu Perfil',
-    // TODO: Change to the profile page when homepage is implemented
     href: '/',
+  },
+  {
+    icon: <CurrencyDollarIcon className="w-5 h-5" />,
+    label: 'Configuração de Preços',
+    href: '/precos',
   },
 ]
 

@@ -135,7 +135,7 @@ export const Sidebar: React.FC<SidebarProps> = ({ items }) => {
           </ul>
         </nav>
 
-        <div className="hidden lg:flex h-12 border-t border-border items-center justify-center">
+        <div className="hidden lg:flex h-12 items-center justify-center">
           <div
             className={`w-8 h-8 flex items-center justify-center rounded-lg transition-colors ${
               isExpanded
