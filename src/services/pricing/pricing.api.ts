@@ -1,5 +1,5 @@
 import { BaseApiService } from '../api/base-api.service'
-import type { CreateInstructorPricingRequest, InstructorPricingResponse, UpdatePricingStatusRequest, UpdatePricingPricesRequest } from './pricing.types'
+import type { CreateInstructorPricingRequest, InstructorPricingResponse, UpdatePricingPricesRequest,UpdatePricingStatusRequest } from './pricing.types'
 
 export class PricingApiService extends BaseApiService {
   async createPricing(
