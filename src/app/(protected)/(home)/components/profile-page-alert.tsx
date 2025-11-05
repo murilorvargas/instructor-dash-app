@@ -1,6 +1,6 @@
 'use client'
 
-import { ExclamationTriangleIcon, InformationCircleIcon } from '@heroicons/react/24/outline'
+import { ExclamationTriangleIcon, InformationCircleIcon, XCircleIcon } from '@heroicons/react/24/outline'
 import { observer } from 'mobx-react-lite'
 import React from 'react'
 
@@ -13,10 +13,27 @@ export const ProfilePagelAlert: React.FC = observer(() => {
   const activePricings = pricingStore.pricings.filter(p => p.instructor_pricing_status === 'active')
   const hasPricings = activePricings.length > 0
   const isPending = instructor.instructor_status === 'pending_approval'
+  const isRejected = instructor.instructor_status === 'rejected'
   const isActive = instructor.instructor_status === 'active'
 
   return (
     <div className="space-y-4 sm:space-y-6 mb-4 sm:mb-6">
+      {isRejected && (
+        <Alert variant="error">
+          <div className="flex items-start gap-3 sm:gap-4">
+            <XCircleIcon className="w-5 h-5 sm:w-6 sm:h-6 flex-shrink-0 mt-0.5" />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm sm:text-base font-medium mb-1 break-words">
+                Seu perfil foi rejeitado
+              </p>
+              <p className="text-xs sm:text-sm break-words">
+                Seu perfil não pode ser visualizado por alunos. Entre em contato com o suporte através do email <strong>suporte@habilitaai.app</strong> para mais informações.
+              </p>
+            </div>
+          </div>
+        </Alert>
+      )}
+
       {isPending && (
         <Alert variant="warning">
           <div className="flex items-start gap-3 sm:gap-4">

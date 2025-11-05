@@ -11,24 +11,25 @@ import { pricingStore } from '@/stores/pricing.store'
 
 import { PricingPageView } from './PageView'
 
-const categories = [
-  { value: 'A', label: 'Categoria A - Motocicleta' },
-  { value: 'B', label: 'Categoria B - Carro' },
-  { value: 'C', label: 'Categoria C - Caminhão' },
-  { value: 'D', label: 'Categoria D - Ônibus' },
-  { value: 'E', label: 'Categoria E - Carreta' },
-]
 
 function PricingPage() {
   const instructor = instructorStore.instructor!
   const person = personStore.person!
-  const pricings = pricingStore.pricings.filter(p => p.instructor_pricing_status === 'active')
   const [createDialogOpen, setCreateDialogOpen] = useState(false)
   const [category, setCategory] = useState<('A' | 'B' | 'C' | 'D' | 'E') | ''>('')
   const [priceInstructorVehicle, setPriceInstructorVehicle] = useState('')
   const [priceStudentVehicle, setPriceStudentVehicle] = useState('')
   const [loading, setLoading] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+
+  const [editPricesDialogOpen, setEditPricesDialogOpen] = useState(false)
+  const [editingPricingKey, setEditingPricingKey] = useState<string | null>(null)
+  const [editPriceInstructorVehicle, setEditPriceInstructorVehicle] = useState('')
+  const [editPriceStudentVehicle, setEditPriceStudentVehicle] = useState('')
+  const [editPricesLoading, setEditPricesLoading] = useState(false)
+  const [editPricesErrors, setEditPricesErrors] = useState<Record<string, string>>({})
+
+  const [editStatusLoading, setEditStatusLoading] = useState(false)
 
   const validate = () => {
     const newErrors: Record<string, string> = {}
@@ -66,7 +67,6 @@ function PricingPage() {
     try {
       const newPricing = await pricingApi.createPricing(person.person_key, instructor.instructor_key, {
         driver_license_category: category as 'A' | 'B' | 'C' | 'D' | 'E',
-        lesson_type: 'practical',
         price_per_hour_instructor_vehicle: parseFloat(priceInstructorVehicle),
         price_per_hour_student_vehicle: parseFloat(priceStudentVehicle),
       })
@@ -86,8 +86,100 @@ function PricingPage() {
     }
   }
 
-  const availableCategories = categories.filter(cat => !pricingStore.hasPricingForCategory(cat.value as 'A' | 'B' | 'C' | 'D' | 'E'))
-  const isActive = instructor.instructor_status === 'active'
+  const validateEditPrices = () => {
+    const newErrors: Record<string, string> = {}
+
+    const priceInstructor = parseFloat(editPriceInstructorVehicle)
+    if (!editPriceInstructorVehicle || isNaN(priceInstructor) || priceInstructor <= 0) {
+      newErrors.priceInstructorVehicle = 'Preço deve ser maior que zero'
+    }
+
+    const priceStudent = parseFloat(editPriceStudentVehicle)
+    if (!editPriceStudentVehicle || isNaN(priceStudent) || priceStudent <= 0) {
+      newErrors.priceStudentVehicle = 'Preço deve ser maior que zero'
+    }
+
+    setEditPricesErrors(newErrors)
+    return Object.keys(newErrors).length === 0
+  }
+
+  const handleEditPricesSubmit = async (e: React.FormEvent) => {
+    e.preventDefault()
+
+    if (!validateEditPrices() || !editingPricingKey) {
+      return
+    }
+
+    setEditPricesLoading(true)
+    setEditPricesErrors({})
+
+    try {
+      const updated = await pricingApi.updatePricingPrices(
+        person.person_key,
+        instructor.instructor_key,
+        editingPricingKey,
+        {
+          price_per_hour_instructor_vehicle: parseFloat(editPriceInstructorVehicle),
+          price_per_hour_student_vehicle: parseFloat(editPriceStudentVehicle),
+        }
+      )
+
+      pricingStore.updatePricing(updated)
+      toast.success('Preços atualizados com sucesso!')
+
+      setEditPricesDialogOpen(false)
+      setEditingPricingKey(null)
+      setEditPriceInstructorVehicle('')
+      setEditPriceStudentVehicle('')
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.translation || 'Erro ao atualizar preços'
+      toast.error(errorMessage)
+    } finally {
+      setEditPricesLoading(false)
+    }
+  }
+
+  const handleEditPricesOpen = (pricingKey: string, currentPriceInstructor: number, currentPriceStudent: number) => {
+    setEditingPricingKey(pricingKey)
+    setEditPriceInstructorVehicle(currentPriceInstructor.toString())
+    setEditPriceStudentVehicle(currentPriceStudent.toString())
+    setEditPricesErrors({})
+    setEditPricesDialogOpen(true)
+  }
+
+  const handleEditPricesClose = () => {
+    setEditPricesDialogOpen(false)
+    setEditingPricingKey(null)
+    setEditPriceInstructorVehicle('')
+    setEditPriceStudentVehicle('')
+    setEditPricesErrors({})
+  }
+
+  const handleEditStatusSubmit = async (pricingKey: string, newStatus: 'active' | 'inactive') => {
+    setEditStatusLoading(true)
+
+    try {
+      const updated = await pricingApi.updatePricingStatus(
+        person.person_key,
+        instructor.instructor_key,
+        pricingKey,
+        {
+          instructor_pricing_status: newStatus,
+        }
+      )
+
+      pricingStore.updatePricing(updated)
+      toast.success(
+        newStatus === 'active' ? 'Configuração de preço ativada com sucesso!' : 'Configuração de preço desativada com sucesso!'
+      )
+    } catch (err: any) {
+      const errorMessage = err.response?.data?.translation || 'Erro ao atualizar status'
+      toast.error(errorMessage)
+    } finally {
+      setEditStatusLoading(false)
+    }
+  }
+
 
   useEffect(() => {
     if (!createDialogOpen) {
@@ -98,9 +190,17 @@ function PricingPage() {
     }
   }, [createDialogOpen])
 
+  useEffect(() => {
+    if (!editPricesDialogOpen) {
+      setEditingPricingKey(null)
+      setEditPriceInstructorVehicle('')
+      setEditPriceStudentVehicle('')
+      setEditPricesErrors({})
+    }
+  }, [editPricesDialogOpen])
+
   return (
     <PricingPageView
-      pricings={pricings}
       createDialogOpen={createDialogOpen}
       onCreateDialogOpen={() => setCreateDialogOpen(true)}
       onCreateDialogClose={() => setCreateDialogOpen(false)}
@@ -113,8 +213,18 @@ function PricingPage() {
       onSubmit={handleSubmit}
       loading={loading}
       errors={errors}
-      availableCategories={availableCategories}
-      isActive={isActive}
+      editPricesDialogOpen={editPricesDialogOpen}
+      onEditPricesOpen={handleEditPricesOpen}
+      onEditPricesClose={handleEditPricesClose}
+      editPriceInstructorVehicle={editPriceInstructorVehicle}
+      onEditPriceInstructorVehicleChange={setEditPriceInstructorVehicle}
+      editPriceStudentVehicle={editPriceStudentVehicle}
+      onEditPriceStudentVehicleChange={setEditPriceStudentVehicle}
+      onEditPricesSubmit={handleEditPricesSubmit}
+      editPricesLoading={editPricesLoading}
+      editPricesErrors={editPricesErrors}
+      onEditStatusSubmit={handleEditStatusSubmit}
+      editStatusLoading={editStatusLoading}
     />
   )
 }

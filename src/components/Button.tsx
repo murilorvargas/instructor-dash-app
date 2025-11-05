@@ -43,7 +43,7 @@ export const Button: React.FC<ButtonProps> = ({
     return (
       <Link href={href} className={classes}>
         {loading && <span className="absolute inset-0 flex items-center justify-center">{spinner}</span>}
-        <span className={loading ? 'opacity-0' : 'opacity-100'}>{children}</span>
+        <span className={`inline-flex items-center gap-2 ${loading ? 'opacity-0' : 'opacity-100'}`}>{children}</span>
       </Link>
     )
   }
@@ -51,7 +51,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button className={classes} {...props}>
       {loading && <span className="absolute inset-0 flex items-center justify-center">{spinner}</span>}
-      <span className={loading ? 'opacity-0' : 'opacity-100'}>{children}</span>
+      <span className={`inline-flex items-center gap-2 ${loading ? 'opacity-0' : 'opacity-100'}`}>{children}</span>
     </button>
   )
 }

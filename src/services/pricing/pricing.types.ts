@@ -1,6 +1,14 @@
 export interface CreateInstructorPricingRequest {
   driver_license_category: 'A' | 'B' | 'C' | 'D' | 'E'
-  lesson_type: string
+  price_per_hour_instructor_vehicle: number
+  price_per_hour_student_vehicle: number
+}
+
+export interface UpdatePricingStatusRequest {
+  instructor_pricing_status: 'active' | 'inactive'
+}
+
+export interface UpdatePricingPricesRequest {
   price_per_hour_instructor_vehicle: number
   price_per_hour_student_vehicle: number
 }

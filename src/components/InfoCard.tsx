@@ -9,8 +9,8 @@ interface InfoCardProps {
 
 export const InfoCard: React.FC<InfoCardProps> = ({ title, children, className = '', headerAction }) => (
   <div className={`bg-card border border-border rounded-xl p-4 sm:p-6 shadow-sm hover:shadow-md transition-shadow w-full overflow-hidden ${className}`}>
-    <div className="flex items-center justify-between mb-3 sm:mb-4 gap-2">
-      <h3 className="text-base sm:text-lg font-bold text-foreground break-words">
+    <div className="flex flex-col sm:flex-row sm:items-center justify-between mb-3 sm:mb-4 gap-3 sm:gap-2">
+      <h3 className="text-base sm:text-lg font-bold text-foreground break-words flex-1 min-w-0">
         {title}
       </h3>
       {headerAction && <div className="flex-shrink-0">{headerAction}</div>}

@@ -11,6 +11,18 @@ export function getPersonKeyFromToken(token: string): string {
   return payload?.sub
 }
 
+export function getKeycloakLogoutUrl(): string {
+  const keycloakUrl = process.env.NEXT_PUBLIC_KEYCLOAK_URL as string
+  const realm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM as string
+  
+  const callbackUrl = `${window.location.origin}/callback`
+  const idToken = document.cookie.split('; ').find(row => row.startsWith('keycloak-id-token'))?.split('=')[1]
+  const logoutUrl = new URL(`${keycloakUrl}/realms/${realm}/protocol/openid-connect/logout`)
+  logoutUrl.searchParams.set('id_token_hint', idToken as string)
+  logoutUrl.searchParams.set('post_logout_redirect_uri', callbackUrl)
+  return logoutUrl.toString()
+}
+
 export function getKeycloakLogoutUrlFromHeaders(idToken: string, headers: Headers): string {
   const keycloakUrl = process.env.NEXT_PUBLIC_KEYCLOAK_URL as string
   const realm = process.env.NEXT_PUBLIC_KEYCLOAK_REALM as string

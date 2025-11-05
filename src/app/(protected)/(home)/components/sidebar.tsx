@@ -1,9 +1,11 @@
 'use client'
 
-import { Bars3Icon, ChevronLeftIcon,XMarkIcon } from '@heroicons/react/24/outline'
+import { ArrowRightStartOnRectangleIcon, Bars3Icon, ChevronLeftIcon,XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import React, { useEffect,useState } from 'react'
+
+import { getKeycloakLogoutUrl } from '@/utils/keycloak'
 
 interface SidebarItem {
   icon: React.ReactNode
@@ -134,6 +136,23 @@ export const Sidebar: React.FC<SidebarProps> = ({ items }) => {
             })}
           </ul>
         </nav>
+
+        <div className="border-t border-border py-2 px-2">
+          <button
+            onClick={() => {
+              window.location.href = getKeycloakLogoutUrl()
+            }}
+            className="flex items-center gap-3 px-3 py-2.5 rounded-lg transition-colors w-full text-muted-foreground hover:bg-secondary hover:text-foreground"
+            title={!isExpanded && !isMobileOpen ? 'Sair' : undefined}
+          >
+            <span className="flex-shrink-0 w-5 h-5">
+              <ArrowRightStartOnRectangleIcon className="w-5 h-5" />
+            </span>
+            {(isExpanded || isMobileOpen) && (
+              <span className="font-medium whitespace-nowrap">Sair</span>
+            )}
+          </button>
+        </div>
 
         <div className="hidden lg:flex h-12 items-center justify-center">
           <div

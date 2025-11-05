@@ -45,7 +45,7 @@ export const PageView: React.FC<PageViewProps> = ({
 
         <ProfileHeader />
 
-        <ProfilePagelAlert />
+        <ProfilePagelAlert/>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           <InstructorDescriptionCard

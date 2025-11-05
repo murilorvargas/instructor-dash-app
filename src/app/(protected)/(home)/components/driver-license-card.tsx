@@ -7,11 +7,7 @@ import React from 'react'
 import { InfoCard } from '@/components/InfoCard'
 import { InfoRow } from '@/components/InfoRow'
 import { instructorStore } from '@/stores/instructor.store'
-
-const formatDate = (dateString: string) => {
-  const date = new Date(dateString)
-  return date.toLocaleDateString('pt-BR', { day: '2-digit', month: '2-digit', year: 'numeric' })
-}
+import { formatDateAsDdMmYyyy } from '@/utils/date-handlers'
 
 export const DriverLicenseCard: React.FC = observer(() => {
   const instructor = instructorStore.instructor!
@@ -24,8 +20,8 @@ export const DriverLicenseCard: React.FC = observer(() => {
           {instructor.driver_license_category}
         </span>
       } />
-      <InfoRow label="Data de Emissão" value={formatDate(instructor.driver_license_issue_date)} />
-      <InfoRow label="Data de Validade" value={formatDate(instructor.driver_license_expiration_date)} />
+      <InfoRow label="Data de Emissão" value={formatDateAsDdMmYyyy(instructor.driver_license_issue_date)} />
+      <InfoRow label="Data de Validade" value={formatDateAsDdMmYyyy(instructor.driver_license_expiration_date)} />
       <div className="mt-3">
         {new Date(instructor.driver_license_expiration_date) > new Date() ? (
           <div className="flex items-center gap-2 text-xs sm:text-sm text-primary">
