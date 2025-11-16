@@ -4,8 +4,6 @@ import type { InstructorPricingResponse } from '@/services/pricing/pricing.types
 
 class PricingStore {
   pricings: InstructorPricingResponse[] = []
-  loading: boolean = false
-  error: string | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -32,4 +30,3 @@ class PricingStore {
 }
 
 export const pricingStore = new PricingStore()
-

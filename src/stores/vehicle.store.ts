@@ -4,8 +4,6 @@ import type { InstructorVehicleResponse } from '@/services/vehicle/vehicle.types
 
 class VehicleStore {
   vehicles: InstructorVehicleResponse[] = []
-  loading: boolean = false
-  error: string | null = null
 
   constructor() {
     makeAutoObservable(this)
@@ -28,4 +26,3 @@ class VehicleStore {
 }
 
 export const vehicleStore = new VehicleStore()
-
