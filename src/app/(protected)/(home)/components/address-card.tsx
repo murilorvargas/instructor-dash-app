@@ -18,8 +18,8 @@ export const AddressCard: React.FC = observer(() => {
         <InfoRow label="Complemento" value={person.address.complement} />
       )}
       <InfoRow label="Bairro" value={person.address.neighborhood} />
-      <InfoRow label="Cidade" value={person.address.city} />
-      <InfoRow label="Estado" value={person.address.state} />
+      <InfoRow label="Cidade" value={person.address.city.name} />
+      <InfoRow label="Estado" value={person.address.city.state} />
       <InfoRow label="CEP" value={person.address.postal_code} />
     </InfoCard>
   )

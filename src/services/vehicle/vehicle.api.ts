@@ -13,7 +13,7 @@ export class VehicleApiService extends BaseApiService {
     data: CreateInstructorVehicleRequest
   ): Promise<InstructorVehicleResponse> {
     return await this.post<InstructorVehicleResponse>(
-      `/person/${personKey}/instructor/${instructorKey}/instructor_vehicle`,
+      `/person/${personKey}/instructor/${instructorKey}/vehicle`,
       data
     )
   }
@@ -21,11 +21,11 @@ export class VehicleApiService extends BaseApiService {
   async updateVehicleStatus(
     personKey: string,
     instructorKey: string,
-    instructorVehicleKey: string,
+    vehicleKey: string,
     data: UpdateVehicleStatusRequest
   ): Promise<InstructorVehicleResponse> {
     return await this.patch<InstructorVehicleResponse>(
-      `/person/${personKey}/instructor/${instructorKey}/instructor_vehicle/${instructorVehicleKey}/vehicle_status`,
+      `/person/${personKey}/instructor/${instructorKey}/vehicle/${vehicleKey}/vehicle_status`,
       data
     )
   }
@@ -33,11 +33,11 @@ export class VehicleApiService extends BaseApiService {
   async updateVehicleInfo(
     personKey: string,
     instructorKey: string,
-    instructorVehicleKey: string,
+    vehicleKey: string,
     data: UpdateVehicleInfoRequest
   ): Promise<InstructorVehicleResponse> {
     return await this.patch<InstructorVehicleResponse>(
-      `/person/${personKey}/instructor/${instructorKey}/instructor_vehicle/${instructorVehicleKey}`,
+      `/person/${personKey}/instructor/${instructorKey}/vehicle/${vehicleKey}`,
       data
     )
   }

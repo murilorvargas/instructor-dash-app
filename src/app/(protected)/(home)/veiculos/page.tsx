@@ -76,7 +76,7 @@ function VehiclePage() {
         vehicle_manufacturer_year: typeof vehicleManufacturerDate === 'number' ? vehicleManufacturerDate : parseInt(vehicleManufacturerDate),
         vehicle_name: vehicleName.trim(),
         vehicle_description: vehicleDescription.trim(),
-        instructor_vehicle_type: vehicleType as 'motorcycle' | 'light_vehicle' | 'heavy_vehicle' | 'bus' | 'truck_trailer',
+        vehicle_type: vehicleType as 'motorcycle' | 'light_vehicle' | 'heavy_vehicle' | 'bus' | 'truck_trailer',
       })
       
       vehicleStore.addVehicle(newVehicle)
@@ -172,7 +172,7 @@ function VehiclePage() {
         instructor.instructor_key,
         vehicleKey,
         {
-          instructor_vehicle_status: newStatus,
+          vehicle_status: newStatus,
         }
       )
 

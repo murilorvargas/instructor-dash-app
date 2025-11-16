@@ -3,47 +3,17 @@ import React from 'react'
 import { Button } from '@/components/Button'
 import { FormContainer } from '@/components/FormContainer'
 import { Input } from '@/components/Input'
-import { Select } from '@/components/Select'
 import { StepIndicator } from '@/components/StepIndicator'
 import { RegistrationFormData } from '@/services/person/forms/registration-form.types'
 import { formatCEP } from '@/utils/cep-handlers'
 import { formatCPF } from '@/utils/cpf-handlers'
-
-const BRAZILIAN_STATES = [
-  { value: 'AC', label: 'AC - Acre' },
-  { value: 'AL', label: 'AL - Alagoas' },
-  { value: 'AP', label: 'AP - Amapá' },
-  { value: 'AM', label: 'AM - Amazonas' },
-  { value: 'BA', label: 'BA - Bahia' },
-  { value: 'CE', label: 'CE - Ceará' },
-  { value: 'DF', label: 'DF - Distrito Federal' },
-  { value: 'ES', label: 'ES - Espírito Santo' },
-  { value: 'GO', label: 'GO - Goiás' },
-  { value: 'MA', label: 'MA - Maranhão' },
-  { value: 'MT', label: 'MT - Mato Grosso' },
-  { value: 'MS', label: 'MS - Mato Grosso do Sul' },
-  { value: 'MG', label: 'MG - Minas Gerais' },
-  { value: 'PA', label: 'PA - Pará' },
-  { value: 'PB', label: 'PB - Paraíba' },
-  { value: 'PR', label: 'PR - Paraná' },
-  { value: 'PE', label: 'PE - Pernambuco' },
-  { value: 'PI', label: 'PI - Piauí' },
-  { value: 'RJ', label: 'RJ - Rio de Janeiro' },
-  { value: 'RN', label: 'RN - Rio Grande do Norte' },
-  { value: 'RS', label: 'RS - Rio Grande do Sul' },
-  { value: 'RO', label: 'RO - Rondônia' },
-  { value: 'RR', label: 'RR - Roraima' },
-  { value: 'SC', label: 'SC - Santa Catarina' },
-  { value: 'SP', label: 'SP - São Paulo' },
-  { value: 'SE', label: 'SE - Sergipe' },
-  { value: 'TO', label: 'TO - Tocantins' },
-]
 
 interface PageViewProps {
   currentStep: number
   formData: RegistrationFormData
   errors: Record<string, string>
   isLoading: boolean
+  isSearchingCep: boolean
   onFieldUpdate: (section: 'person' | 'address' | 'phone', field: string, value: string) => void
   onNext: () => void
   onPrevious: () => void
@@ -55,6 +25,7 @@ export const PageView: React.FC<PageViewProps> = ({
   formData,
   errors,
   isLoading,
+  isSearchingCep,
   onFieldUpdate,
   onNext,
   onPrevious,
@@ -140,6 +111,19 @@ export const PageView: React.FC<PageViewProps> = ({
             {currentStep === 2 && (
               <>
                 <Input
+                  id="postal_code"
+                  label="CEP *"
+                  type="text"
+                  value={formatCEP(formData.address.postal_code)}
+                  onChange={(e) => onFieldUpdate('address', 'postal_code', e.target.value)}
+                  placeholder="00000-000"
+                  maxLength={9}
+                  error={errors['address.postal_code']}
+                  disabled={isSearchingCep}
+                  loading={isSearchingCep}
+                />
+
+                <Input
                   id="street"
                   label="Rua *"
                   type="text"
@@ -180,35 +164,25 @@ export const PageView: React.FC<PageViewProps> = ({
                   error={errors['address.neighborhood']}
                 />
 
-                <Input
-                  id="city"
-                  label="Cidade *"
-                  type="text"
-                  value={formData.address.city}
-                  onChange={(e) => onFieldUpdate('address', 'city', e.target.value)}
-                  placeholder="Nome da cidade"
-                  error={errors['address.city']}
-                />
-
                 <div className="grid grid-cols-2 gap-4">
-                  <Select
-                    id="state"
-                    label="Estado *"
-                    value={formData.address.state}
-                    onChange={(e) => onFieldUpdate('address', 'state', e.target.value)}
-                    options={BRAZILIAN_STATES}
-                    error={errors['address.state']}
+                  <Input
+                    id="city"
+                    label="Cidade *"
+                    type="text"
+                    value={formData.address.city}
+                    placeholder="Nome da cidade"
+                    disabled
+                    readOnly
                   />
 
                   <Input
-                    id="postal_code"
-                    label="CEP *"
+                    id="state"
+                    label="Estado *"
                     type="text"
-                    value={formatCEP(formData.address.postal_code)}
-                    onChange={(e) => onFieldUpdate('address', 'postal_code', e.target.value)}
-                    placeholder="00000-000"
-                    maxLength={9}
-                    error={errors['address.postal_code']}
+                    value={formData.address.state}
+                    placeholder="UF"
+                    disabled
+                    readOnly
                   />
                 </div>
               </>

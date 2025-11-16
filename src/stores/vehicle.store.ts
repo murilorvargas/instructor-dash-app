@@ -20,7 +20,7 @@ class VehicleStore {
   }
 
   updateVehicle(updatedVehicle: InstructorVehicleResponse) {
-    const index = this.vehicles.findIndex(v => v.instructor_vehicle_key === updatedVehicle.instructor_vehicle_key)
+    const index = this.vehicles.findIndex(v => v.vehicle_key === updatedVehicle.vehicle_key)
     if (index !== -1) {
       this.vehicles[index] = updatedVehicle
     }

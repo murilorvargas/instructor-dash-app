@@ -10,7 +10,7 @@ import { vehicleStore } from '@/stores/vehicle.store'
 
 export const VehiclePageAlert: React.FC = observer(() => {
   const instructor = instructorStore.instructor!
-  const activeVehicles = vehicleStore.vehicles.filter(v => v.instructor_vehicle_status === 'active')
+  const activeVehicles = vehicleStore.vehicles.filter(v => v.vehicle_status === 'active')
   const isApproved = instructor.instructor_status === 'active'
   const isRejected = instructor.instructor_status === 'rejected'
   const isPending = instructor.instructor_status === 'pending_approval'

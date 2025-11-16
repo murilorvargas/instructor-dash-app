@@ -29,7 +29,7 @@ export async function getAllVehiclesServer(
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL as string
     const response = await axios.get<InstructorVehicleResponse[]>(
-      `${apiUrl}/person/${personKey}/instructor/${instructorKey}/instructor_vehicles`,
+      `${apiUrl}/person/${personKey}/instructor/${instructorKey}/vehicles`,
       {
         headers: {
           Authorization: `Bearer ${token}`,

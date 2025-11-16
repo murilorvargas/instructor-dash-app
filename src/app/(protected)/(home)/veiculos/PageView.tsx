@@ -94,21 +94,21 @@ export const VehiclePageView: React.FC<VehiclePageViewProps> = observer(({
   editStatusLoading,
 }) => {
   const instructor = instructorStore.instructor!
-  const activeVehicles = vehicleStore.vehicles.filter(v => v.instructor_vehicle_status === 'active')
-  const inactiveVehicles = vehicleStore.vehicles.filter(v => v.instructor_vehicle_status === 'inactive')
-  const deletedVehicles = vehicleStore.vehicles.filter(v => v.instructor_vehicle_status === 'deleted')
+  const activeVehicles = vehicleStore.vehicles.filter(v => v.vehicle_status === 'active')
+  const inactiveVehicles = vehicleStore.vehicles.filter(v => v.vehicle_status === 'inactive')
+  const deletedVehicles = vehicleStore.vehicles.filter(v => v.vehicle_status === 'deleted')
   const allVehicles = vehicleStore.vehicles
   const isPending = instructor.instructor_status === 'pending_approval'
   const isActive = instructor.instructor_status === 'active'
   const isRejected = instructor.instructor_status === 'rejected'
 
   const renderVehicleCard = (vehicle: typeof vehicleStore.vehicles[0]) => {
-    const isVehicleActive = vehicle.instructor_vehicle_status === 'active'
-    const isVehicleDeleted = vehicle.instructor_vehicle_status === 'deleted'
+    const isVehicleActive = vehicle.vehicle_status === 'active'
+    const isVehicleDeleted = vehicle.vehicle_status === 'deleted'
     
     return (
       <div
-        key={vehicle.instructor_vehicle_key}
+        key={vehicle.vehicle_key}
         className="bg-muted/50 rounded-lg p-4 sm:p-5 border border-border"
       >
         <div className="flex items-center justify-between mb-3">
@@ -117,7 +117,7 @@ export const VehiclePageView: React.FC<VehiclePageViewProps> = observer(({
               {vehicle.vehicle_name}
             </h4>
             <p className="text-xs sm:text-sm text-muted-foreground mt-1">
-              {vehicleTypeLabels[vehicle.instructor_vehicle_type] || vehicle.instructor_vehicle_type}
+              {vehicleTypeLabels[vehicle.vehicle_type] || vehicle.vehicle_type}
             </p>
           </div>
           <div className="flex items-center gap-2">
@@ -136,7 +136,7 @@ export const VehiclePageView: React.FC<VehiclePageViewProps> = observer(({
                   variant="ghost"
                   size="sm"
                   onClick={() => onEditInfoOpen(
-                    vehicle.instructor_vehicle_key,
+                    vehicle.vehicle_key,
                     vehicle.vehicle_name,
                     vehicle.vehicle_description
                   )}
@@ -149,7 +149,7 @@ export const VehiclePageView: React.FC<VehiclePageViewProps> = observer(({
                   variant="ghost"
                   size="sm"
                   onClick={() => {
-                    onEditStatusSubmit(vehicle.instructor_vehicle_key, 'inactive')
+                    onEditStatusSubmit(vehicle.vehicle_key, 'inactive')
                   }}
                   disabled={!isActive || editStatusLoading}
                   loading={editStatusLoading}
@@ -164,7 +164,7 @@ export const VehiclePageView: React.FC<VehiclePageViewProps> = observer(({
                 variant="ghost"
                 size="sm"
                 onClick={() => {
-                  onEditStatusSubmit(vehicle.instructor_vehicle_key, 'active')
+                  onEditStatusSubmit(vehicle.vehicle_key, 'active')
                 }}
                 disabled={!isActive || editStatusLoading}
                 loading={editStatusLoading}

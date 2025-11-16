@@ -1,11 +1,12 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import React, { useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import toast from 'react-hot-toast'
 
 import type { RegistrationFormData } from '@/services/person/forms/registration-form.types'
 import { personApi } from '@/services/person/person.api'
+import { cepApi } from '@/services/cep/cep.api'
 import { validateCPF } from '@/utils/cpf-handlers'
 import { validateEmail } from '@/utils/email-handlers'
 import { getKeycloakLoginUrl } from '@/utils/keycloak'
@@ -16,7 +17,9 @@ export default function CadastroPage() {
   const router = useRouter()
   const [currentStep, setCurrentStep] = useState(1)
   const [isLoading, setIsLoading] = useState(false)
+  const [isSearchingCep, setIsSearchingCep] = useState(false)
   const [errors, setErrors] = useState<Record<string, string>>({})
+  const lastSearchedCepRef = useRef<string>('')
   
   const [formData, setFormData] = useState<RegistrationFormData>({
     person: {
@@ -35,6 +38,7 @@ export default function CadastroPage() {
       city: '',
       state: '',
       postal_code: '',
+      ibge_code: '',
     },
     phone: {
       country_code: '55',
@@ -87,15 +91,16 @@ export default function CadastroPage() {
     }
 
     if (currentStep === 2) {
-      if (!formData.address.street) newErrors['address.street'] = 'Rua é obrigatória'
-      if (!formData.address.number) newErrors['address.number'] = 'Número é obrigatório'
-      if (!formData.address.neighborhood) newErrors['address.neighborhood'] = 'Bairro é obrigatório'
-      if (!formData.address.city) newErrors['address.city'] = 'Cidade é obrigatória'
-      if (!formData.address.state) newErrors['address.state'] = 'Estado é obrigatório'
       if (!formData.address.postal_code) {
         newErrors['address.postal_code'] = 'CEP é obrigatório'
       } else if (formData.address.postal_code.replace(/\D/g, '').length !== 8) {
         newErrors['address.postal_code'] = 'CEP inválido'
+      }
+      if (!formData.address.street) newErrors['address.street'] = 'Rua é obrigatória'
+      if (!formData.address.number) newErrors['address.number'] = 'Número é obrigatório'
+      if (!formData.address.neighborhood) newErrors['address.neighborhood'] = 'Bairro é obrigatório'
+      if (!formData.address.ibge_code) {
+        newErrors['address.ibge_code'] = 'CEP inválido ou não encontrado. Verifique o CEP digitado.'
       }
     }
 
@@ -126,6 +131,54 @@ export default function CadastroPage() {
     setCurrentStep((prev) => Math.max(prev - 1, 1))
   }
 
+  const handleSearchCep = async (cep: string) => {
+    const cleanedCep = cep.replace(/\D/g, '')
+    if (cleanedCep.length !== 8) {
+      return
+    }
+
+    if (lastSearchedCepRef.current === cleanedCep || isSearchingCep) {
+      return
+    }
+
+    setIsSearchingCep(true)
+    try {
+      const cepData = await cepApi.searchCep(cleanedCep)
+
+      setFormData((prev) => ({
+        ...prev,
+        address: {
+          ...prev.address,
+          street: cepData.logradouro || '',
+          neighborhood: cepData.bairro || '',
+          city: cepData.localidade || '',
+          state: cepData.uf || '',
+          ibge_code: cepData.ibge || '',
+        },
+      }))
+
+      lastSearchedCepRef.current = cleanedCep
+      toast.success('Endereço preenchido automaticamente!')
+    } catch (error: any) {
+      const errorMessage = error?.message || 'Erro ao buscar CEP. Tente novamente.'
+      toast.error(errorMessage)
+    } finally {
+      setIsSearchingCep(false)
+    }
+  }
+
+  useEffect(() => {
+    if (currentStep === 2) {
+      const cleanedCep = formData.address.postal_code.replace(/\D/g, '')
+      if (cleanedCep.length === 8 && lastSearchedCepRef.current !== cleanedCep && !isSearchingCep) {
+        handleSearchCep(formData.address.postal_code)
+      } else if (cleanedCep.length < 8) {
+        lastSearchedCepRef.current = ''
+      }
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [formData.address.postal_code, currentStep])
+
   const handleSubmit = async () => {
     if (!validateStep()) return
 
@@ -143,9 +196,8 @@ export default function CadastroPage() {
           number: formData.address.number,
           ...(formData.address.complement && { complement: formData.address.complement }),
           neighborhood: formData.address.neighborhood,
-          city: formData.address.city,
-          state: formData.address.state,
-          postal_code: formData.address.postal_code,
+          ibge_code: formData.address.ibge_code,
+          postal_code: formData.address.postal_code.replace(/\D/g, ''),
         },
         phone: formData.phone,
       }
@@ -169,6 +221,7 @@ export default function CadastroPage() {
       formData={formData}
       errors={errors}
       isLoading={isLoading}
+      isSearchingCep={isSearchingCep}
       onFieldUpdate={updateField}
       onNext={handleNext}
       onPrevious={handlePrevious}

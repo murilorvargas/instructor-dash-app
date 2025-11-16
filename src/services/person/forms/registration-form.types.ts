@@ -15,6 +15,7 @@ export interface AddressFormData {
   city: string
   state: string
   postal_code: string
+  ibge_code: string
 }
 
 export interface PhoneFormData {

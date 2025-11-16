@@ -3,8 +3,7 @@ export interface CreatePersonAddressRequest {
   number: string
   complement?: string
   neighborhood: string
-  city: string
-  state: string
+  ibge_code: string
   postal_code: string
 }
 
@@ -31,8 +30,11 @@ export interface PersonAddressResponse {
   number: string
   complement: string
   neighborhood: string
-  city: string
-  state: string
+  city: {
+    city_key: string
+    name: string
+    state: string
+  }
   postal_code: string
 }
 
