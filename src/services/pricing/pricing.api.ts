@@ -13,6 +13,18 @@ export class PricingApiService extends BaseApiService {
     )
   }
 
+  async updatePricingPrices(
+    personKey: string,
+    instructorKey: string,
+    instructorPricingKey: string,
+    data: UpdatePricingPricesRequest
+  ): Promise<InstructorPricingResponse> {
+    return await this.patch<InstructorPricingResponse>(
+      `/person/${personKey}/instructor/${instructorKey}/instructor_pricing/${instructorPricingKey}`,
+      data
+    )
+  }
+
   async updatePricingStatus(
     personKey: string,
     instructorKey: string,
@@ -21,18 +33,6 @@ export class PricingApiService extends BaseApiService {
   ): Promise<InstructorPricingResponse> {
     return await this.patch<InstructorPricingResponse>(
       `/person/${personKey}/instructor/${instructorKey}/instructor_pricing/${instructorPricingKey}/pricing_status`,
-      data
-    )
-  }
-
-  async updatePricingPrices(
-    personKey: string,
-    instructorKey: string,
-    instructorPricingKey: string,
-    data: UpdatePricingPricesRequest
-  ): Promise<InstructorPricingResponse> {
-    return await this.patch<InstructorPricingResponse>(
-      `/person/${personKey}/instructor/${instructorKey}/instructor_pricing/${instructorPricingKey}/price_per_hour`,
       data
     )
   }

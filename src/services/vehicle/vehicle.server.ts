@@ -4,9 +4,11 @@ import { redirect } from 'next/navigation'
 
 import { getKeycloakLoginUrlFromHeaders, getKeycloakLogoutUrlFromHeaders, getPersonKeyFromToken, hasInstructorDashRole } from '@/utils/keycloak'
 
-import type { InstructorResponse } from './instructor.types'
+import type { InstructorVehicleResponse } from './vehicle.types'
 
-export async function getInstructorServer(): Promise<InstructorResponse> {
+export async function getAllVehiclesServer(
+  instructorKey: string
+): Promise<InstructorVehicleResponse[]> {
   const cookieStore = cookies()
   const idToken = cookieStore.get('keycloak-id-token')?.value
   const token = cookieStore.get('keycloak-token')?.value
@@ -26,12 +28,15 @@ export async function getInstructorServer(): Promise<InstructorResponse> {
 
   try {
     const apiUrl = process.env.NEXT_PUBLIC_API_URL as string
-    const response = await axios.get<InstructorResponse>(`${apiUrl}/person/${personKey}/instructor`, {
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-    })
+    const response = await axios.get<InstructorVehicleResponse[]>(
+      `${apiUrl}/person/${personKey}/instructor/${instructorKey}/instructor_vehicles`,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      }
+    )
     return response.data
   } catch (_error: any) {
     redirect(getKeycloakLogoutUrlFromHeaders(idToken, headers()))

@@ -105,6 +105,14 @@ export const PageView: React.FC<PageViewProps> = ({
                   <option value="C">C</option>
                   <option value="D">D</option>
                   <option value="E">E</option>
+                  <option value="AB">AB</option>
+                  <option value="AC">AC</option>
+                  <option value="AD">AD</option>
+                  <option value="AE">AE</option>
+                  <option value="CD">CD</option>
+                  <option value="DE">DE</option>
+                  <option value="ACD">ACD</option>
+                  <option value="ADE">ADE</option>
                 </select>
                 {errors.driver_license_category && (
                   <p className="mt-1 text-sm text-destructive">{errors.driver_license_category}</p>

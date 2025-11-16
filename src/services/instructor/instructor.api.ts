@@ -12,7 +12,7 @@ export class InstructorApiService extends BaseApiService {
     data: UpdateInstructorDescriptionRequest
   ): Promise<InstructorResponse> {
     return await this.patch<InstructorResponse>(
-      `/person/${personKey}/instructor/${instructorKey}/instructor_description`,
+      `/person/${personKey}/instructor/${instructorKey}`,
       data
     )
   }
